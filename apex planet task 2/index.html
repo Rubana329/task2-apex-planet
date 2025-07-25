@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Web Development Project</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        /* My custom styles */
+
+        /* Welcome section styling */
+        .welcome-section {
+            background-color: #f8f9fa;
+            border: 2px solid #007bff;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        /* Grid layout for my sections */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .grid-item {
+            min-height: 400px;
+        }
+
+        /* Contact form styles */
+        .contact-section .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px #007bff;
+        }
+
+        .contact-section .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        /* Task list styles */
+        .todo-section .list-group-item {
+            border: 1px solid #ddd;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        .todo-section .list-group-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .todo-section .list-group-item.completed {
+            opacity: 0.5;
+            text-decoration: line-through;
+        }
+
+        .todo-task {
+            flex-grow: 1;
+            padding: 8px;
+        }
+
+        .todo-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .todo-checkbox {
+            margin-right: 8px;
+        }
+
+        .todo-stats {
+            padding: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+        }
+
+        /* Photo gallery styles */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            max-height: 350px;
+            overflow-y: auto;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 5px;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-item .remove-btn {
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            background-color: red;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover .remove-btn {
+            display: block;
+        }
+
+        .gallery-item .remove-btn:hover {
+            background-color: darkred;
+        }
+
+        /* About section styling */
+        .about-section .card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+
+        /* Navigation bar styles */
+        .navbar-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        /* Make it work on phones */
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .welcome-section {
+                padding: 20px 10px !important;
+            }
+            
+            .welcome-section h1 {
+                font-size: 24px;
+            }
+            
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                max-height: 250px;
+            }
+            
+            .navbar-nav {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .container {
+                padding: 0 10px;
+            }
+            
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            }
+            
+            .gallery-item img {
+                height: 80px;
+            }
+        }
+
+        /* Simple animations */
+        .was-validated .form-control:invalid {
+            border-color: red !important;
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Loading for images */
+        .gallery-item.loading {
+            background-color: #f0f0f0;
+        }
+
+        /* Success effect */
+        .success-animation {
+            background-color: #d4edda !important;
+            transition: background-color 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <!-- My Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">My Website</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#todo">Tasks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#gallery">Photos</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Welcome Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="welcome-section text-center p-4 bg-light rounded">
+                    <h1 class="mb-3">Welcome to My Website</h1>
+                    <p>This is my practice project for learning web development</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Grid Layout -->
+        <div class="main-grid">
+            <!-- Contact Form Section -->
+            <section id="contact" class="grid-item contact-section">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h3>Contact Me</h3>
+                        <p class="mb-0">Send me a message</p>
+                    </div>
+                    <div class="card-body">
+                        <form id="contactForm" novalidate>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                                <div class="invalid-feedback">Please enter your name.</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                                <div class="invalid-feedback">Please enter a valid email address.</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="tel" class="form-control" id="phone" name="phone">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Subject</label>
+                                <select class="form-select" id="subject" name="subject">
+                                    <option value="">Choose a subject...</option>
+                                    <option value="general">General Inquiry</option>
+                                    <option value="support">Support</option>
+                                    <option value="feedback">Feedback</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Message <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+                                <div class="invalid-feedback">Please enter your message.</div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- To-Do List Section -->
+            <section id="todo" class="grid-item todo-section">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h3>My Tasks</h3>
+                        <p class="mb-0">Keep track of things to do</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="todoInput" placeholder="Add a new task...">
+                            <button class="btn btn-outline-secondary" type="button" id="addTodoBtn">Add Task</button>
+                        </div>
+                        
+                        <div class="todo-stats mb-3">
+                            <small class="text-muted">
+                                Total: <span id="totalTasks">0</span> | 
+                                Completed: <span id="completedTasks">0</span> | 
+                                Remaining: <span id="remainingTasks">0</span>
+                            </small>
+                        </div>
+                        
+                        <ul id="todoList" class="list-group">
+                            <!-- Dynamic todo items will be added here -->
+                        </ul>
+                        
+                        <div class="mt-3">
+                            <button class="btn btn-sm btn-outline-danger" id="clearCompletedBtn">Clear Done</button>
+                            <button class="btn btn-sm btn-outline-warning" id="clearAllBtn">Clear All</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Image Gallery Section -->
+            <section id="gallery" class="grid-item gallery-section">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h3>Photo Gallery</h3>
+                        <p class="mb-0">Add your favorite images</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group mb-3">
+                            <input type="url" class="form-control" id="imageUrlInput" placeholder="Enter image URL...">
+                            <button class="btn btn-outline-secondary" type="button" id="addImageBtn">Add Photo</button>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <small class="text-muted">Or try these sample images:</small>
+                            <div class="mt-2">
+                                <button class="btn btn-sm btn-outline-info me-1 sample-image-btn" data-url="https://via.placeholder.com/300x200/007bff/ffffff?text=Sample+1">Sample 1</button>
+                                <button class="btn btn-sm btn-outline-info me-1 sample-image-btn" data-url="https://via.placeholder.com/300x200/28a745/ffffff?text=Sample+2">Sample 2</button>
+                                <button class="btn btn-sm btn-outline-info sample-image-btn" data-url="https://via.placeholder.com/300x200/dc3545/ffffff?text=Sample+3">Sample 3</button>
+                            </div>
+                        </div>
+                        
+                        <div id="imageGallery" class="image-gallery">
+                            <!-- Dynamic images will be added here -->
+                        </div>
+                        
+                        <div class="mt-3">
+                            <button class="btn btn-sm btn-outline-danger" id="clearGalleryBtn">Clear Photos</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section class="grid-item about-section">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h3>What I Learned</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <h5>HTML & CSS</h5>
+                                <ul>
+                                    <li>Making forms</li>
+                                    <li>Using flexbox</li>
+                                    <li>CSS grid layout</li>
+                                    <li>Making it work on phones</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <h5>JavaScript</h5>
+                                <ul>
+                                    <li>Checking forms</li>
+                                    <li>Making things move</li>
+                                    <li>Button clicks</li>
+                                    <li>Adding new stuff</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-light mt-4 py-3">
+        <div class="container text-center">
+            <p>© 2025 My Website. Made by me for practice.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // My JavaScript code for the website
+
+        // Wait for page to load
+        document.addEventListener('DOMContentLoaded', function() {
+            setupFormValidation();
+            setupTodoList();
+            setupImageGallery();
+            setupSmoothScrolling();
+        });
+
+        // Contact form validation
+        function setupFormValidation() {
+            const form = document.getElementById('contactForm');
+            
+            if (!form) return;
+            
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                
+                // Check if form is valid
+                const isValid = checkForm();
+                
+                if (isValid) {
+                    // Show success message
+                    alert('Thank you! Your message has been sent.');
+                    form.reset();
+                    form.classList.remove('was-validated');
+                } else {
+                    // Show validation errors
+                    form.classList.add('was-validated');
+                }
+            });
+            
+            // Check fields when user leaves them
+            const inputs = form.querySelectorAll('input[required], textarea[required]');
+            inputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    checkField(this);
+                });
+                
+                input.addEventListener('input', function() {
+                    if (this.classList.contains('is-invalid')) {
+                        checkField(this);
+                    }
+                });
+            });
+        }
+
+        function checkForm() {
+            const name = document.getElementById('name');
+            const email = document.getElementById('email');
+            const message = document.getElementById('message');
+            
+            let isValid = true;
+            
+            // Check name field
+            if (!name.value.trim()) {
+                markFieldBad(name, 'Please enter your name.');
+                isValid = false;
+            } else {
+                markFieldGood(name);
+            }
+            
+            // Check email field
+            if (!email.value.trim()) {
+                markFieldBad(email, 'Please enter your email.');
+                isValid = false;
+            } else if (!checkEmail(email.value)) {
+                markFieldBad(email, 'Please enter a valid email.');
+                isValid = false;
+            } else {
+                markFieldGood(email);
+            }
+            
+            // Check message field
+            if (!message.value.trim()) {
+                markFieldBad(message, 'Please enter your message.');
+                isValid = false;
+            } else if (message.value.trim().length < 10) {
+                markFieldBad(message, 'Message too short.');
+                isValid = false;
+            } else {
+                markFieldGood(message);
+            }
+            
+            return isValid;
+        }
+
+        function checkField(field) {
+            if (field.type === 'email') {
+                if (!field.value.trim()) {
+                    markFieldBad(field, 'Please enter your email.');
+                } else if (!checkEmail(field.value)) {
+                    markFieldBad(field, 'Please enter a valid email.');
+                } else {
+                    markFieldGood(field);
+                }
+            } else if (field.hasAttribute('required')) {
+                if (!field.value.trim()) {
+                    markFieldBad(field, 'Please enter your ' + (field.name || 'information') + '.');
+                } else {
+                    markFieldGood(field);
+                }
+            }
+        }
+
+        function markFieldGood(field) {
+            field.classList.remove('is-invalid');
+            field.classList.add('is-valid');
+        }
+
+        function markFieldBad(field, message) {
+            field.classList.remove('is-valid');
+            field.classList.add('is-invalid');
+            
+            const feedback = field.nextElementSibling;
+            if (feedback && feedback.classList.contains('invalid-feedback')) {
+                feedback.textContent = message;
+            }
+        }
+
+        function checkEmail(email) {
+            return email.includes('@') && email.includes('.');
+        }
+
+        // Todo list functions
+        function setupTodoList() {
+            const todoInput = document.getElementById('todoInput');
+            const addTodoBtn = document.getElementById('addTodoBtn');
+            const todoList = document.getElementById('todoList');
+            const clearCompletedBtn = document.getElementById('clearCompletedBtn');
+            const clearAllBtn = document.getElementById('clearAllBtn');
+            
+            if (!todoInput || !addTodoBtn || !todoList) return;
+            
+            let myTodos = JSON.parse(localStorage.getItem('todos')) || [];
+            let nextId = parseInt(localStorage.getItem('todoId')) || 1;
+            
+            // Show existing todos
+            showTodos();
+            
+            // Button clicks
+            addTodoBtn.addEventListener('click', addNewTodo);
+            todoInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    addNewTodo();
+                }
+            });
+            
+            clearCompletedBtn.addEventListener('click', clearDone);
+            clearAllBtn.addEventListener('click', clearEverything);
+            
+            function addNewTodo() {
+                const text = todoInput.value.trim();
+                if (!text) {
+                    todoInput.focus();
+                    return;
+                }
+                
+                const newTodo = {
+                    id: nextId++,
+                    text: text,
+                    completed: false,
+                    timestamp: new Date().toISOString()
+                };
+                
+                myTodos.unshift(newTodo);
+                saveTodos();
+                showTodos();
+                
+                todoInput.value = '';
+                todoInput.focus();
+                
+                // Highlight new todo
+                const todoElement = todoList.querySelector('[data-todo-id="' + newTodo.id + '"]');
+                if (todoElement) {
+                    todoElement.classList.add('success-animation');
+                }
+            }
+            
+            function showTodos() {
+                todoList.innerHTML = '';
+                
+                if (myTodos.length === 0) {
+                    todoList.innerHTML = '<li class="list-group-item text-center text-muted"><p class="mb-0">No tasks yet. Add one above!</p></li>';
+                } else {
+                    myTodos.forEach(function(todo) {
+                        const todoElement = makeTodoElement(todo);
+                        todoList.appendChild(todoElement);
+                    });
+                }
+                
+                updateNumbers();
+            }
+            
+            function makeTodoElement(todo) {
+                const li = document.createElement('li');
+                li.className = 'list-group-item d-flex align-items-center' + (todo.completed ? ' completed' : '');
+                li.setAttribute('data-todo-id', todo.id);
+                
+                li.innerHTML = '<input type="checkbox" class="form-check-input todo-checkbox" ' + (todo.completed ? 'checked' : '') + '>' +
+                              '<div class="todo-task">' + todo.text + '</div>' +
+                              '<div class="todo-actions">' +
+                              '<button class="btn btn-sm btn-outline-primary edit-todo">Edit</button>' +
+                              '<button class="btn btn-sm btn-outline-danger delete-todo">Delete</button>' +
+                              '</div>';
+                
+                // Add event listeners
+                const checkbox = li.querySelector('.todo-checkbox');
+                const editBtn = li.querySelector('.edit-todo');
+                const deleteBtn = li.querySelector('.delete-todo');
+                
+                checkbox.addEventListener('change', function() { toggleTodo(todo.id); });
+                editBtn.addEventListener('click', function() { editTodo(todo.id); });
+                deleteBtn.addEventListener('click', function() { removeTodo(todo.id); });
+                
+                return li;
+            }
+            
+            function toggleTodo(id) {
+                const todo = myTodos.find(function(t) { return t.id === id; });
+                if (todo) {
+                    todo.completed = !todo.completed;
+                    saveTodos();
+                    showTodos();
+                }
+            }
+            
+            function editTodo(id) {
+                const todo = myTodos.find(function(t) { return t.id === id; });
+                if (!todo) return;
+                
+                const newText = prompt('Edit task:', todo.text);
+                if (newText !== null && newText.trim()) {
+                    todo.text = newText.trim();
+                    saveTodos();
+                    showTodos();
+                }
+            }
+            
+            function removeTodo(id) {
+                if (confirm('Delete this task?')) {
+                    myTodos = myTodos.filter(function(t) { return t.id !== id; });
+                    saveTodos();
+                    showTodos();
+                }
+            }
+            
+            function clearDone() {
+                const doneCount = myTodos.filter(function(t) { return t.completed; }).length;
+                if (doneCount === 0) {
+                    alert('No completed tasks to clear.');
+                    return;
+                }
+                
+                if (confirm('Clear ' + doneCount + ' completed task(s)?')) {
+                    myTodos = myTodos.filter(function(t) { return !t.completed; });
+                    saveTodos();
+                    showTodos();
+                }
+            }
+            
+            function clearEverything() {
+                if (myTodos.length === 0) {
+                    alert('No tasks to clear.');
+                    return;
+                }
+                
+                if (confirm('Clear all tasks?')) {
+                    myTodos = [];
+                    saveTodos();
+                    showTodos();
+                }
+            }
+            
+            function updateNumbers() {
+                const total = myTodos.length;
+                const completed = myTodos.filter(function(t) { return t.completed; }).length;
+                const remaining = total - completed;
+                
+                document.getElementById('totalTasks').textContent = total;
+                document.getElementById('completedTasks').textContent = completed;
+                document.getElementById('remainingTasks').textContent = remaining;
+            }
+            
+            function saveTodos() {
+                localStorage.setItem('todos', JSON.stringify(myTodos));
+                localStorage.setItem('todoId', nextId.toString());
+            }
+        }
+
+        // Photo gallery functions
+        function setupImageGallery() {
+            const imageUrlInput = document.getElementById('imageUrlInput');
+            const addImageBtn = document.getElementById('addImageBtn');
+            const imageGallery = document.getElementById('imageGallery');
+            const clearGalleryBtn = document.getElementById('clearGalleryBtn');
+            const sampleImageBtns = document.querySelectorAll('.sample-image-btn');
+            
+            if (!imageUrlInput || !addImageBtn || !imageGallery) return;
+            
+            let myImages = JSON.parse(localStorage.getItem('galleryImages')) || [];
+            let nextImageId = parseInt(localStorage.getItem('imageId')) || 1;
+            
+            // Show existing images
+            showGallery();
+            
+            // Button clicks
+            addImageBtn.addEventListener('click', addNewImage);
+            imageUrlInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    addNewImage();
+                }
+            });
+            
+            clearGalleryBtn.addEventListener('click', clearAllImages);
+            
+            // Sample image buttons
+            sampleImageBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const url = this.getAttribute('data-url');
+                    imageUrlInput.value = url;
+                    addNewImage();
+                });
+            });
+            
+            function addNewImage() {
+                const url = imageUrlInput.value.trim();
+                if (!url) {
+                    imageUrlInput.focus();
+                    return;
+                }
+                
+                if (!checkImageUrl(url)) {
+                    alert('Please enter a valid image URL.');
+                    return;
+                }
+                
+                const newImage = {
+                    id: nextImageId++,
+                    url: url,
+                    timestamp: new Date().toISOString()
+                };
+                
+                myImages.unshift(newImage);
+                saveImages();
+                showGallery();
+                
+                imageUrlInput.value = '';
+                imageUrlInput.focus();
+            }
+            
+            function showGallery() {
+                imageGallery.innerHTML = '';
+                
+                if (myImages.length === 0) {
+                    imageGallery.innerHTML = '<div class="col-12 text-center text-muted p-4"><p class="mb-0">No photos yet. Add some above!</p></div>';
+                } else {
+                    myImages.forEach(function(image) {
+                        const imageElement = makeImageElement(image);
+                        imageGallery.appendChild(imageElement);
+                    });
+                }
+            }
+            
+            function makeImageElement(image) {
+                const div = document.createElement('div');
+                div.className = 'gallery-item loading';
+                div.setAttribute('data-image-id', image.id);
+                
+                const img = document.createElement('img');
+                img.src = image.url;
+                img.alt = 'Gallery Image';
+                img.loading = 'lazy';
+                
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'remove-btn';
+                removeBtn.innerHTML = 'X';
+                removeBtn.setAttribute('title', 'Remove image');
+                
+                // Handle image load/error
+                img.addEventListener('load', function() {
+                    div.classList.remove('loading');
+                    div.classList.add('success-animation');
+                });
+                
+                img.addEventListener('error', function() {
+                    div.classList.remove('loading');
+                    div.innerHTML = '<div class="p-3 text-center text-danger"><p class="mb-0 small">Image failed to load</p></div>' + removeBtn.outerHTML;
+                    // Re-attach remove button event
+                    const newRemoveBtn = div.querySelector('.remove-btn');
+                    newRemoveBtn.addEventListener('click', function() { deleteImage(image.id); });
+                });
+                
+                removeBtn.addEventListener('click', function() { deleteImage(image.id); });
+                
+                div.appendChild(img);
+                div.appendChild(removeBtn);
+                
+                return div;
+            }
+            
+            function deleteImage(id) {
+                myImages = myImages.filter(function(img) { return img.id !== id; });
+                saveImages();
+                showGallery();
+            }
+            
+            function clearAllImages() {
+                if (myImages.length === 0) {
+                    alert('No images to clear.');
+                    return;
+                }
+                
+                if (confirm('Clear all images?')) {
+                    myImages = [];
+                    saveImages();
+                    showGallery();
+                }
+            }
+            
+            function saveImages() {
+                localStorage.setItem('galleryImages', JSON.stringify(myImages));
+                localStorage.setItem('imageId', nextImageId.toString());
+            }
+        }
+
+        // Helper functions
+        function checkImageUrl(url) {
+            return url.startsWith('http://') || url.startsWith('https://');
+        }
+
+        function setupSmoothScrolling() {
+            // Smooth scroll for links
+            document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Extra features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Button loading effect
+            const submitBtns = document.querySelectorAll('button[type="submit"]');
+            submitBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const originalText = this.innerHTML;
+                    this.innerHTML = 'Sending...';
+                    this.disabled = true;
+                    
+                    // Enable button again
+                    setTimeout(function() {
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                    }, 1000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
